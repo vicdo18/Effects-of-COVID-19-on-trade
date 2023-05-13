@@ -13,43 +13,46 @@ df = pd.read_csv('effects-of-covid-19-on-trade-at-15-december-2021-provisional.c
 #print(df.isnull().sum())             #no null values
 
 #------------------------------------- ER1 ------------------------------------------------------------#
-#Συνολική παρουσίαση του τζίρου (στήλη value) ανά μήνα (στις αντίστοιχες μονάδες μέτρησης)
+#Συνολική παρουσίαση του τζίρου (στήλη value) ανά μήνα (στις αντίστοιχες μονάδες μέτρησης).
 
 # Convert the Date column to a datetime type and set it as the index   - for better parsing 
-df['Date'] = pd.to_datetime(df['Date'])
+df['Date'] = pd.to_datetime(df['Date'],dayfirst=True)
 df.set_index('Date', inplace=True)
-# print(df)
+#print(df)                                        # 2015-01-01 - 2021-12-15
 
-# Extract the month and year from the 'Date' column
+# Extract the month and year from the 'Date' column - nomizw den xreiazetai
 df['Month'] = df.index.month   
 df['Year'] = df.index.year
 
-grouped_df = df.groupby(['Year', 'Month', 'Measure'])['Value'].sum().reset_index()
-print(grouped_df)                                     # why 167 - (7years*12months*2measures) = 168 - 1  because of the header
+grouped_first_df=df.groupby(['Year','Month'])[["Value"]].sum().reset_index()
+print(grouped_first_df)      #TELEIA OLA OK                            
+
+#grouped_df = df.groupby(['Year', 'Month', 'Measure'])['Value'].sum().reset_index()
+#print(grouped_df)                                     # why 167 - (7years*12months*2measures) = 168 - 1  because of the header
 
 #--------------------------------------------------#
 
 # Separate the data for the two units of measurement ('Tonnes' and '$')
-tonnes_df = grouped_df[grouped_df['Measure'] == 'Tonnes']
-# print(tonnes_df) 
-dollars_df = grouped_df[grouped_df['Measure'] == '$']
-# print(dollars_df)
+# tonnes_df = grouped_df[grouped_df['Measure'] == 'Tonnes']
+# # print(tonnes_df) 
+# dollars_df = grouped_df[grouped_df['Measure'] == '$']
+# # print(dollars_df)
 
-#--------------------------------------------------#
+# #--------------------------------------------------#
 
-# for i in df['Month'] :
-#     sum=0
-#     for j in df['Year'] :
-#         for k in tonnes_df :
-#             sum = sum + df['Value']
-#         print(sum)
+# # for i in df['Month'] :
+# #     sum=0
+# #     for j in df['Year'] :
+# #         for k in tonnes_df :
+# #             sum = sum + df['Value']
+# #         print(sum)
 
-#Get sum of Tonnes for each month of each year
-tonnes_df = tonnes_df.groupby(['Year', 'Month'])['Value'].sum().reset_index()
+# #Get sum of Tonnes for each month of each year
+# tonnes_df = tonnes_df.groupby(['Year', 'Month'])['Value'].sum().reset_index()
 
 
-#Get sum of Dollars for each month of each year
-dollars_df = dollars_df.groupby(['Year', 'Month'])['Value'].sum().reset_index()
+# #Get sum of Dollars for each month of each year
+# dollars_df = dollars_df.groupby(['Year', 'Month'])['Value'].sum().reset_index()
 
 #--------------------------------------------------#
 
