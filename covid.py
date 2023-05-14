@@ -10,8 +10,7 @@ from tkinter import *
 #read csv file
 df = pd.read_csv('effects-of-covid-19-on-trade-at-15-december-2021-provisional.csv',sep=',')
 
-#print (for testing)
-# print(df.columns)
+# print(df.columns)     #(for testing)
 
 #find if any null values
 #print(df.isnull().sum())             #no null values
@@ -40,24 +39,19 @@ dollar_df = grouped_first_df[grouped_first_df['Measure'] == '$']
 tonnes_df_first_sql= grouped_first_df[grouped_first_df['Measure'] == 'Tonnes']
 dollar_df_first_sql= grouped_first_df[grouped_first_df['Measure'] == '$']
 
-#parse dataframes to lists
-tonnes_df_list = tonnes_df['Value'].tolist()
-dollar_df_list = dollar_df['Value'].tolist()
-
-# print (tonnes_df_list)
-# print (dollar_df_list)
 
 ################### plot $ and Tonnes value per month per year ###########################################
 
 def plot_dollars_1():
     values = dollar_df['Value']
     years = dollar_df['Year']
-    months = dollar_df['Month']   #???
-    fig, ax = plt.subplots()
+    months = dollar_df['Month']  
+    fig, ax = plt.subplots( figsize=(10, 5))
 
     labels = [f"{m}-{y}" for m, y in zip(months, years)]
     ax.set_xticks(np.arange(len(labels)))
     ax.set_xticklabels(labels)
+    plt.xticks(fontsize=6)
 
     ax.bar(np.arange(len(values)), values)
 
@@ -71,11 +65,12 @@ def plot_tonnes_1():
     values = tonnes_df['Value']
     years = tonnes_df['Year']
     months = tonnes_df['Month']   #???
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 5))
 
     labels = [f"{m}-{y}" for m, y in zip(months, years)]
     ax.set_xticks(np.arange(len(labels)))
     ax.set_xticklabels(labels)
+    plt.xticks(fontsize=6)
 
     ax.bar(np.arange(len(values)), values, color='orange')
     ax.set_xlabel('Month-Year')
